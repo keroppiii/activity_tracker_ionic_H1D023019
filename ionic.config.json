@@ -1,0 +1,7 @@
+{
+  "name": "activity_tracker_ionic_H1D023019",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue-vite"
+}
