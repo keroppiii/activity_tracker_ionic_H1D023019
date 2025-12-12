@@ -12,6 +12,8 @@
     "lib": ["ESNext", "DOM"],
     "skipLibCheck": true,
     "noEmit": true,
+    "types": ["vite/client"],
+    "typeRoots": ["./node_modules/@types", "./src"],
     "paths": {
       "@/*": ["./src/*"]
     }

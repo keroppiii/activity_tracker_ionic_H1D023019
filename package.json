@@ -17,10 +17,15 @@
     "@capacitor/haptics": "8.0.0",
     "@capacitor/keyboard": "8.0.0",
     "@capacitor/status-bar": "8.0.0",
+    "@ionic/storage": "^4.0.0",
     "@ionic/vue": "^8.0.0",
     "@ionic/vue-router": "^8.0.0",
+    "chart.js": "^4.5.1",
+    "date-fns": "^4.1.0",
     "ionicons": "^7.0.0",
+    "uuid": "^13.0.0",
     "vue": "^3.3.0",
+    "vue-chartjs": "^5.3.3",
     "vue-router": "^4.2.0"
   },
   "devDependencies": {
