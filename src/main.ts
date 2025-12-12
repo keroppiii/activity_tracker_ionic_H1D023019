@@ -17,7 +17,7 @@ import '@ionic/vue/css/flex-utils.css';
 import '@ionic/vue/css/display.css';
 import './theme/variables.css';
 
-// Initialize storage before app starts
+
 StorageService.init().then(() => {
   console.log('✅ Storage initialized');
   

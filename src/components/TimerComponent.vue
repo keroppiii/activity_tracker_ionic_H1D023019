@@ -93,7 +93,7 @@ onUnmounted(() => { clearInterval(timerInterval); });
   letter-spacing: 2px;
 }
 
-/* CONTAINER TOMBOL: 3 Elemen Horizontal */
+
 .control-row {
   display: flex;
   align-items: center;
@@ -103,7 +103,7 @@ onUnmounted(() => { clearInterval(timerInterval); });
   margin-top: 35px;
 }
 
-/* Gaya Tombol Ikon (Kiri & Kanan) */
+
 .icon-circle-btn {
   width: 50px;
   height: 50px;
@@ -118,7 +118,7 @@ onUnmounted(() => { clearInterval(timerInterval); });
   transition: all 0.2s;
 }
 
-/* Tombol Utama Kapsul (Tengah) */
+
 .main-action-pill {
   height: 55px;
   padding: 0 25px;

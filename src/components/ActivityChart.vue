@@ -8,7 +8,7 @@
 import { ref, onMounted, onUnmounted, watch } from 'vue';
 import { Chart, registerables } from 'chart.js';
 
-// Register Chart.js components
+
 Chart.register(...registerables);
 
 const props = defineProps({
@@ -30,7 +30,7 @@ const props = defineProps({
 const chartCanvas = ref(null);
 let chartInstance = null;
 
-// Default colors for charts
+
 const defaultColors = [
   '#4CAF50', // Green
   '#2196F3', // Blue
@@ -42,21 +42,21 @@ const defaultColors = [
   '#009688', // Teal
 ];
 
-// Initialize chart
+
 const initChart = () => {
   if (!chartCanvas.value) return;
 
-  // Destroy existing chart
+  
   if (chartInstance) {
     chartInstance.destroy();
   }
 
   const ctx = chartCanvas.value.getContext('2d');
   
-  // Prepare chart data based on type
+  
   const chartData = prepareChartData();
   
-  // Merge default options with custom options
+  
   const chartOptions = {
     responsive: true,
     maintainAspectRatio: false,
@@ -84,7 +84,7 @@ const initChart = () => {
     ...props.options
   };
 
-  // Create chart
+  
   chartInstance = new Chart(ctx, {
     type: props.type,
     data: chartData,
@@ -92,7 +92,7 @@ const initChart = () => {
   });
 };
 
-// Prepare chart data based on type
+
 const prepareChartData = () => {
   const { type, data } = props;
   
@@ -122,7 +122,7 @@ const prepareChartData = () => {
   return { labels: [], datasets: [] };
 };
 
-// Watch for data changes
+
 watch(() => props.data, () => {
   if (chartInstance) {
     const newData = prepareChartData();
@@ -131,12 +131,12 @@ watch(() => props.data, () => {
   }
 }, { deep: true });
 
-// Watch for type changes
+
 watch(() => props.type, () => {
   initChart();
 });
 
-// Lifecycle hooks
+
 onMounted(() => {
   initChart();
 });

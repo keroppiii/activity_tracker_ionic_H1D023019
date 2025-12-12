@@ -19,12 +19,12 @@ class StorageService {
       
       console.log('💾 Saving activity:', activity);
       
-      // CONVERT TO PLAIN OBJECT - INI YANG PERBAIKAN
+  
       let activityData;
       if (activity instanceof Activity) {
         activityData = activity.toJSON();
       } else if (activity && typeof activity === 'object') {
-        // Jika sudah plain object, pakai langsung
+        
         activityData = activity;
       } else {
         throw new Error('Invalid activity data');
@@ -32,24 +32,24 @@ class StorageService {
       
       console.log('📦 Converted to JSON:', activityData);
       
-      // Get existing activities
+      
       const activities = await this.getActivities();
       console.log('📊 Existing activities count:', activities.length);
       
-      // Find existing index
+     
       const existingIndex = activities.findIndex(a => a.id === activityData.id);
       
       if (existingIndex >= 0) {
-        // Update existing
+       
         activities[existingIndex] = Activity.fromJSON(activityData);
         console.log('🔄 Updating existing activity');
       } else {
-        // Add new
+        
         activities.push(Activity.fromJSON(activityData));
         console.log('➕ Adding new activity');
       }
       
-      // Save as array of plain objects
+     
       const activitiesToSave = activities.map(a => a.toJSON());
       console.log('💿 Saving to storage:', activitiesToSave);
       
@@ -70,7 +70,7 @@ class StorageService {
       const data = await this.storage.get(this.activitiesKey) || [];
       console.log('📥 Raw data from storage:', data);
       
-      // Convert plain objects back to Activity instances
+      
       const activities = data.map(item => {
         try {
           return Activity.fromJSON(item);

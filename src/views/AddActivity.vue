@@ -148,15 +148,15 @@ import StorageService from '@/services/StorageService';
 const router = useRouter();
 const route = useRoute();
 
-// Activity data
+
 const activity = ref(new Activity());
 const activityDate = ref(new Date().toISOString());
 const activityTime = ref(new Date().toISOString());
 
-// Categories from model
+
 const categories = CATEGORIES;
 
-// Quick duration options
+
 const quickDurations = [
   { label: '15 menit', seconds: 900 },
   { label: '30 menit', seconds: 1800 },
@@ -164,7 +164,7 @@ const quickDurations = [
   { label: '2 jam', seconds: 7200 }
 ];
 
-// Computed properties for duration
+
 const hours = computed(() => Math.floor(activity.value.duration / 3600));
 const minutes = computed(() => Math.floor((activity.value.duration % 3600) / 60));
 const seconds = computed(() => activity.value.duration % 60);
@@ -175,16 +175,16 @@ const formattedDuration = computed(() => {
     seconds.value.toString().padStart(2, '0')}`;
 });
 
-// Form validation
+
 const formValid = computed(() => {
   return activity.value.title.trim() !== '' && 
          activity.value.category !== '' && 
          activity.value.duration > 0;
 });
 
-// Initialize with route params
+
 onMounted(() => {
-  // Check for timer duration from route
+  
   if (route.query.timerDuration) {
     const timerSeconds = parseInt(route.query.timerDuration);
     if (timerSeconds > 0) {
@@ -193,7 +193,7 @@ onMounted(() => {
     }
   }
 
-  // Check for quick add params
+ 
   if (route.query.title) {
     activity.value.title = route.query.title;
   }
@@ -204,13 +204,13 @@ onMounted(() => {
     activity.value.duration = parseInt(route.query.duration);
   }
 
-  // Set default date/time
+ 
   const now = new Date();
   activityDate.value = now.toISOString();
   activityTime.value = now.toISOString();
 });
 
-// Adjust duration
+
 const adjustDuration = (seconds) => {
   const newDuration = activity.value.duration + seconds;
   if (newDuration >= 0) {
@@ -218,12 +218,12 @@ const adjustDuration = (seconds) => {
   }
 };
 
-// Set specific duration
+
 const setDuration = (seconds) => {
   activity.value.duration = seconds;
 };
 
-// Save activity - SIMPLIFIED VERSION
+
 const saveActivity = async () => {
   if (!formValid.value) {
     console.warn('Form tidak valid');
@@ -233,7 +233,7 @@ const saveActivity = async () => {
   try {
     console.log('=== SAVE ACTIVITY START ===');
     
-    // Combine date and time
+    
     const date = new Date(activityDate.value);
     const time = new Date(activityTime.value);
     
@@ -241,7 +241,6 @@ const saveActivity = async () => {
     date.setMinutes(time.getMinutes());
     date.setSeconds(time.getSeconds());
 
-    // Create PLAIN OBJECT for storage
     const activityData = {
       id: activity.value.id || `activity_${Date.now()}`,
       title: activity.value.title,
@@ -255,11 +254,11 @@ const saveActivity = async () => {
 
     console.log('📦 Activity data to save:', activityData);
     
-    // Save to storage - StorageService will handle conversion
+    
     const saved = await StorageService.saveActivity(activityData);
     console.log('✅ Save result:', saved);
     
-    // Show success alert
+    
     const alert = document.createElement('ion-alert');
     alert.header = 'Berhasil!';
     alert.message = 'Aktivitas berhasil disimpan';
@@ -268,16 +267,16 @@ const saveActivity = async () => {
     await alert.present();
     await alert.onDidDismiss();
 
-    // Dispatch an event so other pages can reactively update
+    
     window.dispatchEvent(new CustomEvent('activity:changed', { detail: { action: 'add', id: saved && saved.id } }));
 
-    // Navigate back to home
+    
     router.push('/home');
 
   } catch (error) {
     console.error('❌ Error saving activity:', error);
     
-    // Show error alert
+    
     const alert = document.createElement('ion-alert');
     alert.header = 'Error!';
     alert.message = `Gagal menyimpan: ${error.message}`;
@@ -287,20 +286,20 @@ const saveActivity = async () => {
   }
 };
 
-// Reset form
+
 const resetForm = () => {
   activity.value = new Activity();
   activityDate.value = new Date().toISOString();
   activityTime.value = new Date().toISOString();
 };
 
-// Get category icon
+
 const getCategoryIcon = (categoryName) => {
   const category = categories.find(cat => cat.name === categoryName);
   return category ? category.icon : ellipsisHorizontal;
 };
 
-// Tambahkan di dalam script setup
+
 const getCategoryColorHex = (categoryName) => {
   const colors = {
     'Olahraga': '#10B981',

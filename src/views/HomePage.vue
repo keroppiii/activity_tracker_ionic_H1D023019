@@ -103,7 +103,7 @@ const timerRef = ref(null);
 const loading = ref(true);
 const todayActivities = ref([]);
 
-// Quick categories for quick add
+
 const quickCategories = [
   { id: 'olahraga', name: 'Olahraga', icon: fitness },
   { id: 'membaca', name: 'Membaca', icon: book },
@@ -111,7 +111,7 @@ const quickCategories = [
   { id: 'bekerja', name: 'Bekerja', icon: briefcase }
 ];
 
-// Get today's date formatted
+
 const todayDate = computed(() => {
   return new Date().toLocaleDateString('id-ID', {
     weekday: 'long',
@@ -121,7 +121,7 @@ const todayDate = computed(() => {
   });
 });
 
-// Calculate total duration
+
 const totalDurationFormatted = computed(() => {
   const totalSeconds = todayActivities.value.reduce((total, activity) => {
     return total + activity.duration;
@@ -133,7 +133,7 @@ const totalDurationFormatted = computed(() => {
   return `${hours}j ${minutes}m`;
 });
 
-// Load today's activities
+
 const loadTodayActivities = async () => {
   try {
     loading.value = true;
@@ -148,7 +148,7 @@ const loadTodayActivities = async () => {
   }
 };
 
-// Navigation methods
+
 const goToAddActivity = () => {
   router.push('/add-activity');
 };
@@ -161,7 +161,7 @@ const goToStatistics = () => {
   router.push('/statistics');
 };
 
-// Save with current timer
+
 const saveWithTimer = () => {
   if (timerRef.value && timerRef.value.elapsedSeconds > 0) {
     router.push({
@@ -169,22 +169,21 @@ const saveWithTimer = () => {
       query: { timerDuration: timerRef.value.elapsedSeconds }
     });
   } else {
-    // Show toast notification
-    // You can implement toast here
+
     console.log('Timer belum dimulai atau durasi 0');
   }
 };
 
-// Quick add activity
+
 const quickAdd = (category) => {
   const activity = new Activity({
     title: `${category.name} ${new Date().getHours()}:${new Date().getMinutes()}`,
     category: category.name,
-    duration: 1800, // 30 minutes default
+    duration: 1800, 
     notes: 'Ditambahkan via quick add'
   });
   
-  // Navigate to add page with pre-filled data
+
   router.push({
     path: '/add-activity',
     query: { 
@@ -195,7 +194,7 @@ const quickAdd = (category) => {
   });
 };
 
-// Helper methods for categories
+
 const getCategoryIcon = (category) => {
   const icons = {
     'Olahraga': fitness,
@@ -218,7 +217,7 @@ const getCategoryColor = (category) => {
   return colors[category] || 'medium';
 };
 
-// Load data on mount and listen for activity changes
+
 const onActivityChanged = (event) => {
   console.log('Activity changed event received:', event);
   loadTodayActivities();
@@ -235,7 +234,7 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-/* 1. Latar Belakang */
+
 .main-bg {
   --background: #FFFFFF; 
 }
@@ -244,11 +243,11 @@ onUnmounted(() => {
   padding: 0 20px 120px 20px;
 }
 
-/* 2. Header & Toolbar - DISESUAIKAN */
+
 .clear-toolbar {
   --background: #FFFFFF;
   --border-width: 0;
-  padding: 15px 20px 5px 20px; /* Tambah padding atas sedikit */
+  padding: 15px 20px 5px 20px; 
 }
 
 .header-wrapper {
@@ -257,20 +256,20 @@ onUnmounted(() => {
   align-items: center;
 }
 
-/* Tulisan Halo, Fatim (Besar & Bold) */
+
 .welcome-text {
-  font-size: 1.8rem; /* Lebih besar */
+  font-size: 1.8rem; 
   font-weight: 900;
   color: #0F172A;
   margin: 0;
   letter-spacing: -1px;
 }
 
-/* Tulisan Tracker H1D023019 (Tipis & Kecil) */
+
 .user-id {
-  font-size: 0.85rem; /* Kecil */
-  font-weight: 300; /* Tipis */
-  color: #64748B; /* Warna abu-abu slate */
+  font-size: 0.85rem; 
+  font-weight: 300;
+  color: #64748B; 
   margin: 2px 0 0 0;
   letter-spacing: 0.5px;
 }
@@ -299,7 +298,7 @@ onUnmounted(() => {
   background: #F1F5F9;
 }
 
-/* 3. Timer Hub (Midnight Premium) */
+
 .timer-hub-premium {
   position: relative;
   background: linear-gradient(145deg, #1E293B 0%, #0F172A 100%);
@@ -346,7 +345,7 @@ onUnmounted(() => {
   100% { transform: scale(1); opacity: 1; }
 }
 
-/* 4. Bento Cards */
+
 .bento-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -378,7 +377,7 @@ onUnmounted(() => {
   opacity: 0.6;
 }
 
-/* 5. List & Utilities */
+
 .section-title-row {
   display: flex;
   justify-content: space-between;

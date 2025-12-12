@@ -138,7 +138,7 @@ import { CATEGORIES } from '@/models/Activity';
 
 const router = useRouter();
 
-// State
+
 const loading = ref(true);
 const selectedPeriod = ref('today');
 const statistics = ref({
@@ -148,16 +148,15 @@ const statistics = ref({
   activities: []
 });
 
-// Load statistics
+
 const loadStatistics = async () => {
   try {
     loading.value = true;
     
-    // Get activities based on selected period
+   
     const allActivities = await StorageService.getActivities();
     let filteredActivities = [...allActivities];
-    
-    // Filter by period
+   
     const now = new Date();
     if (selectedPeriod.value === 'today') {
       filteredActivities = filteredActivities.filter(activity => {
@@ -179,14 +178,12 @@ const loadStatistics = async () => {
         return activityDate >= monthAgo;
       });
     }
-    // 'all' uses all activities
-    
-    // Calculate statistics
+
     const totalDuration = filteredActivities.reduce((total, activity) => {
       return total + (activity.duration || 0);
     }, 0);
     
-    // Category statistics
+
     const categoryStats = {};
     filteredActivities.forEach(activity => {
       if (!categoryStats[activity.category]) {
@@ -224,7 +221,7 @@ const loadStatistics = async () => {
   }
 };
 
-// Computed properties
+
 const hasData = computed(() => {
   return statistics.value.totalActivities > 0;
 });
@@ -250,7 +247,7 @@ const recentActivities = computed(() => {
   return statistics.value.activities.slice(0, 5);
 });
 
-// Chart data
+
 const categoryChartData = computed(() => {
   const labels = [];
   const values = [];
@@ -266,11 +263,10 @@ const categoryChartData = computed(() => {
 });
 
 const dailyChartData = computed(() => {
-  // Group activities by day for the last 7 days
+
   const dailyCounts = {};
   const now = new Date();
-  
-  // Initialize last 7 days
+
   for (let i = 6; i >= 0; i--) {
     const date = new Date(now);
     date.setDate(date.getDate() - i);
@@ -278,12 +274,12 @@ const dailyChartData = computed(() => {
     dailyCounts[dateKey] = 0;
   }
   
-  // Count activities per day
+
   statistics.value.activities.forEach(activity => {
     const activityDate = new Date(activity.date);
     const dateKey = activityDate.toLocaleDateString('id-ID', { weekday: 'short' });
     
-    // Only include last 7 days
+
     const daysDiff = Math.floor((now - activityDate) / (1000 * 60 * 60 * 24));
     if (daysDiff >= 0 && daysDiff <= 6) {
       if (dailyCounts[dateKey] !== undefined) {
@@ -314,7 +310,7 @@ const barChartOptions = {
   }
 };
 
-// Helper functions
+
 const formatDuration = (seconds) => {
   const hours = Math.floor(seconds / 3600);
   const minutes = Math.floor((seconds % 3600) / 60);
@@ -356,7 +352,7 @@ const getRankColor = (index) => {
   return colors[index] || 'medium';
 };
 
-// Navigation
+
 const goToAddActivity = () => {
   router.push('/add-activity');
 };
@@ -365,7 +361,7 @@ const refreshData = () => {
   loadStatistics();
 };
 
-// Load data on mount
+
 onMounted(() => {
   loadStatistics();
 });
@@ -404,7 +400,7 @@ onMounted(() => {
   padding: 0 20px 40px 20px;
 }
 
-/* Period Selector */
+
 .period-container {
   margin-bottom: 24px;
 }
@@ -423,7 +419,7 @@ onMounted(() => {
   font-size: 0.8rem;
 }
 
-/* Bento Grid */
+
 .bento-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -465,7 +461,7 @@ onMounted(() => {
   font-weight: 600;
 }
 
-/* Charts */
+
 .section-header { margin: 32px 0 16px 0; }
 .section-header h2 { font-size: 1.1rem; font-weight: 800; color: #2D3748; margin: 0; }
 
@@ -494,7 +490,7 @@ onMounted(() => {
 .legend-pop-item .dot { width: 8px; height: 8px; border-radius: 50%; }
 .legend-pop-item .value { margin-left: auto; color: #A0AEC0; }
 
-/* Ranking List */
+
 .rank-card {
   background: white;
   padding: 12px;
@@ -516,9 +512,9 @@ onMounted(() => {
   font-size: 0.75rem;
 }
 
-.rank-1 { background: #FEF3C7; color: #D97706; } /* Gold */
-.rank-2 { background: #E2E8F0; color: #475569; } /* Silver */
-.rank-3 { background: #FFEDD5; color: #9A3412; } /* Bronze */
+.rank-1 { background: #FEF3C7; color: #D97706; } 
+.rank-2 { background: #E2E8F0; color: #475569; }
+.rank-3 { background: #FFEDD5; color: #9A3412; } 
 
 .rank-icon {
   width: 40px;
@@ -536,7 +532,7 @@ onMounted(() => {
 
 .rank-percent { font-weight: 900; color: #2D3748; font-size: 0.9rem; }
 
-/* Recent Log */
+
 .mini-history-card {
   background: white;
   padding: 12px 16px;
@@ -552,7 +548,7 @@ onMounted(() => {
 .mini-title { font-size: 0.85rem; font-weight: 700; color: #2D3748; }
 .mini-meta { font-size: 0.7rem; color: #A0AEC0; font-weight: 600; }
 
-/* Colors Helper */
+
 .bg-success { background: #D1FAE5; color: #059669; }
 .bg-primary { background: #DBEAFE; color: #2563EB; }
 .bg-tertiary { background: #EDE9FE; color: #7C3AED; }
@@ -565,7 +561,7 @@ onMounted(() => {
 .icon-bg-warning { background: #FEF3C7; color: #F59E0B; }
 .icon-bg-danger { background: #FCE7F3; color: #EC4899; }
 
-/* States */
+
 .center-state { text-align: center; padding: 60px 0; color: #718096; }
 .empty-pop-state {
   text-align: center;

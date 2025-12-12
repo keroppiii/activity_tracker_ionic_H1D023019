@@ -175,7 +175,7 @@ import { CATEGORIES } from '@/models/Activity';
 
 const router = useRouter();
 
-// State
+
 const loading = ref(true);
 const activities = ref([]);
 const showFilter = ref(false);
@@ -184,7 +184,7 @@ const selectedCategory = ref('');
 const showDetailModal = ref(false);
 const selectedActivity = ref(null);
 
-// Load activities
+
 const loadActivities = async () => {
   try {
     loading.value = true;
@@ -197,11 +197,11 @@ const loadActivities = async () => {
   }
 };
 
-// Filter activities
+
 const filteredActivities = computed(() => {
   let filtered = [...activities.value];
   
-  // Filter by date
+  
   if (selectedDate.value) {
     const filterDate = new Date(selectedDate.value);
     filtered = filtered.filter(activity => {
@@ -209,21 +209,20 @@ const filteredActivities = computed(() => {
       return activityDate.toDateString() === filterDate.toDateString();
     });
   }
-  
-  // Filter by category
+
   if (selectedCategory.value) {
     filtered = filtered.filter(activity => 
       activity.category === selectedCategory.value
     );
   }
   
-  // Sort by date (newest first)
+ 
   return filtered.sort((a, b) => 
     new Date(b.date) - new Date(a.date)
   );
 });
 
-// Group activities by date
+
 const groupedActivities = computed(() => {
   const groups = {};
   
@@ -245,7 +244,7 @@ const groupedActivities = computed(() => {
   return groups;
 });
 
-// Total duration formatted
+
 const totalDurationFormatted = computed(() => {
   const totalSeconds = filteredActivities.value.reduce((total, activity) => {
     return total + activity.duration;
@@ -257,7 +256,7 @@ const totalDurationFormatted = computed(() => {
   return `${hours}j ${minutes}m`;
 });
 
-// Format helpers
+
 const formatDisplayDate = (dateString) => {
   const date = new Date(dateString);
   const today = new Date();
@@ -291,7 +290,7 @@ const formatDuration = (seconds) => {
   return `${hours}j ${minutes}m`;
 };
 
-// Category helpers
+
 const categories = CATEGORIES;
 
 const getCategoryIcon = (category) => {
@@ -316,16 +315,16 @@ const getCategoryColor = (category) => {
   return colors[category] || 'medium';
 };
 
-// Show activity details - PERBAIKAN
+
 const showActivityDetails = (activity) => {
   console.log('Setting selected activity:', activity);
-  selectedActivity.value = { ...activity }; // Create a copy to ensure reactivity
+  selectedActivity.value = { ...activity }; 
   console.log('Selected activity value:', selectedActivity.value);
   showDetailModal.value = true;
   console.log('Modal open:', showDetailModal.value);
 };
 
-// Delete activity with confirmation
+
 const deleteActivityWithConfirm = async (id) => {
   const confirm = await alertController.create({
     header: 'Konfirmasi Hapus',
@@ -349,7 +348,7 @@ const deleteActivityWithConfirm = async (id) => {
               showDetailModal.value = false;
               await loadActivities();
 
-              // Dispatch event for other pages to update
+              
               window.dispatchEvent(new CustomEvent('activity:changed', { detail: { action: 'delete', id } }));
 
               const successAlert = await alertController.create({
@@ -376,7 +375,7 @@ const deleteActivityWithConfirm = async (id) => {
   await confirm.present();
 };
 
-// Format detail date
+
 const formatDetailDate = (dateString) => {
   try {
     const date = new Date(dateString);
@@ -391,33 +390,33 @@ const formatDetailDate = (dateString) => {
   }
 };
 
-// Clear date filter
+
 const clearDateFilter = () => {
   selectedDate.value = '';
 };
 
-// Refresh data
+
 const refreshData = () => {
   loadActivities();
 };
 
-// Navigate to add activity
+
 const goToAddActivity = () => {
   router.push('/add-activity');
 };
 
-// Load data on mount
+
 onMounted(() => {
   loadActivities();
 });
 
-// Tambahkan di dalam script setup
+
 const formatHeaderDate = (dateString) => {
   const date = new Date(dateString);
   const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
   
-  // Deteksi Hari Ini / Kemarin
+
   const today = new Date();
   const yesterday = new Date();
   yesterday.setDate(today.getDate() - 1);
@@ -471,7 +470,7 @@ const formatHeaderDate = (dateString) => {
   padding: 0 20px 40px 20px;
 }
 
-/* Stats Bento */
+
 .stats-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -492,7 +491,7 @@ const formatHeaderDate = (dateString) => {
 .stat-label { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; opacity: 0.8; }
 .stat-number { font-size: 1.5rem; font-weight: 900; margin-top: 4px; }
 
-/* Filter Panel */
+
 .pop-filter-panel {
   background: white;
   margin: 0 16px 16px 16px;
@@ -523,7 +522,7 @@ const formatHeaderDate = (dateString) => {
 
 .clear-icon { color: #E53E3E; font-size: 18px; }
 
-/* Timeline Grouping */
+
 .date-group {
   margin-bottom: 32px;
 }
@@ -551,7 +550,7 @@ const formatHeaderDate = (dateString) => {
   color: #718096;
 }
 
-/* History Card */
+
 .history-item-card {
   background: white;
   padding: 12px;
@@ -601,14 +600,14 @@ const formatHeaderDate = (dateString) => {
   color: #A0AEC0;
 }
 
-/* Category Colors */
+
 .bg-success { background: #D1FAE5; color: #059669; }
 .bg-primary { background: #DBEAFE; color: #2563EB; }
 .bg-tertiary { background: #EDE9FE; color: #7C3AED; }
 .bg-warning { background: #FEF3C7; color: #D97706; }
 .bg-danger { background: #FCE7F3; color: #DB2777; }
 
-/* Detail Modal Pop */
+
 .detail-modal-pop {
   --height: auto;
   --border-radius: 32px 32px 0 0;
@@ -680,7 +679,7 @@ const formatHeaderDate = (dateString) => {
   margin-top: 8px;
 }
 
-/* Animations */
+
 .slide-fade-enter-active, .slide-fade-leave-active { transition: all 0.3s ease; }
 .slide-fade-enter-from, .slide-fade-leave-to { transform: translateY(-20px); opacity: 0; }
 </style>
